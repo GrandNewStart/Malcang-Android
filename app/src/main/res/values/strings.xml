@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">말캉</string>
+    <string name="shared_preferences_key">malcang</string>
+    <string name="key_fcm_token">fcm_token</string>
+    <string name="key_jwt">jwt</string>
+    <string name="ket_uuid">uuid</string>
+    <string name="default_notification_channel_id">default_notification_channel</string>
+    <string name="default_notification_channel_name">말캉 알림</string>
+</resources>

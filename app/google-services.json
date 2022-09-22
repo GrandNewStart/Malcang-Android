@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "456430836049",
+    "project_id": "malcang",
+    "storage_bucket": "malcang.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456430836049:android:a255ce621a813472411b70",
+        "android_client_info": {
+          "package_name": "com.malcang.malcang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456430836049-mp699u4nnv50dptscs1vufqhg6ir28dq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malcang.malcang",
+            "certificate_hash": "1bcf5e7d0d8b8ee7dc5799586fd829353d02654e"
+          }
+        },
+        {
+          "client_id": "456430836049-9hll15d48a9drps2gsblrcds7k7m9k26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvhQiDAQLokBcThlxtkr7sjzdW8yQs3nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456430836049-9hll15d48a9drps2gsblrcds7k7m9k26.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "456430836049-iqonh3j4chogtpl1qpk4v9agrektj9qo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.malcang.malcang"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
