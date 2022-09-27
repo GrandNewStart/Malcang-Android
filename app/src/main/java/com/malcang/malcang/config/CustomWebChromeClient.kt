@@ -3,22 +3,13 @@ package com.malcang.malcang.config
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.os.Message
-import android.util.Log
 import android.view.KeyEvent
-import android.webkit.ConsoleMessage
-import android.webkit.JsResult
-import android.webkit.WebChromeClient
-import android.webkit.WebView
+import android.webkit.*
 import androidx.core.view.isVisible
+import com.malcang.malcang.activities.WebViewActivity
 
-class CustomWebChromeClient(private val context: Context): WebChromeClient() {
-
-//    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-//        Log.d("CustomWebChromeClient", consoleMessage?.message() ?: "")
-//        return super.onConsoleMessage(consoleMessage)
-//    }
+class CustomWebChromeClient(private val activity: WebViewActivity): WebChromeClient() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateWindow(
@@ -27,18 +18,26 @@ class CustomWebChromeClient(private val context: Context): WebChromeClient() {
         isUserGesture: Boolean,
         resultMsg: Message?
     ): Boolean {
-        WebView(context).let { webView ->
+        WebView(activity).let { webView ->
             webView.settings.apply {
                 userAgentString = "malcangApp/Android"
+                useWideViewPort = true
+                allowContentAccess = true
                 javaScriptEnabled = true
+                domStorageEnabled = true
                 javaScriptCanOpenWindowsAutomatically = true
+                builtInZoomControls = false
+                loadWithOverviewMode = true
+
+                cacheMode = WebSettings.LOAD_NO_CACHE
                 setSupportMultipleWindows(true)
+                setSupportZoom(false)
             }
-            webView.webViewClient = CustomWebViewClient()
-            webView.webChromeClient = CustomWebChromeClient(context)
+            webView.webViewClient = CustomWebViewClient(activity)
+            webView.webChromeClient = CustomWebChromeClient(activity)
             (resultMsg?.obj as? WebView.WebViewTransport)?.webView = webView
             resultMsg?.sendToTarget()
-            val dialog = Dialog(context)
+            val dialog = Dialog(activity)
             dialog.setContentView(webView)
             dialog.setOnKeyListener { _, keyCode, _ ->
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -69,7 +68,7 @@ class CustomWebChromeClient(private val context: Context): WebChromeClient() {
         message: String?,
         result: JsResult?
     ): Boolean {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(activity)
             .setTitle("")
             .setMessage(message)
             .setPositiveButton(android.R.string.ok) { _, _ -> result?.confirm() }
@@ -84,7 +83,7 @@ class CustomWebChromeClient(private val context: Context): WebChromeClient() {
         message: String?,
         result: JsResult?
     ): Boolean {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(activity)
             .setTitle("")
             .setMessage(message)
             .setPositiveButton(android.R.string.ok) { _, _ -> result?.confirm() }

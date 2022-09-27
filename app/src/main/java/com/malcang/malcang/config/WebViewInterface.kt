@@ -40,6 +40,14 @@ class WebViewInterface {
         }
     }
 
+    @JavascriptInterface
+    fun removeJWT() {
+        MainActivity.INSTANCE.runOnUiThread {
+            MalcangApp.INSTANCE.jwt = null
+            MainActivity.INSTANCE.removeJWTInLocalStorage()
+        }
+    }
+
     companion object {
         const val TAG = "WebViewInterface"
     }
