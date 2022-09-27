@@ -34,9 +34,8 @@ class CustomWebViewClient(private val activity: WebViewActivity): WebViewClient(
             if (url.scheme == "kakaotalk") {
                 activity.startActivity(Intent(ACTION_VIEW, url))
             }
-            return true
         }
-        return false
+        return super.shouldOverrideUrlLoading(view, request)
     }
 
     private fun log(message: String) {
