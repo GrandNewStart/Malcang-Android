@@ -13,12 +13,12 @@ import com.malcang.malcang.config.WebViewInterface
 
 open class WebViewActivity: AppCompatActivity() {
 
-    protected val webView: WebView by lazy { findViewById(R.id.webView) }
+    val webView: WebView by lazy { findViewById(R.id.webView) }
     private var progressDialog: CustomProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_web)
         setupWebView()
     }
 

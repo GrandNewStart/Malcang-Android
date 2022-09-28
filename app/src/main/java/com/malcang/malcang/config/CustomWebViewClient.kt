@@ -1,12 +1,15 @@
 package com.malcang.malcang.config
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import com.malcang.malcang.MalcangApp
 import com.malcang.malcang.activities.MainActivity
 import com.malcang.malcang.activities.WebViewActivity
@@ -29,10 +32,18 @@ class CustomWebViewClient(private val activity: WebViewActivity): WebViewClient(
         log("onPageFinished: $url")
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         request?.url?.let { url ->
             if (url.scheme == "kakaotalk") {
-                activity.startActivity(Intent(ACTION_VIEW, url))
+                val intent = Intent(ACTION_VIEW, url)
+                intent.resolveActivity(activity.packageManager)?.apply {
+                    activity.startActivity(intent)
+                    return true
+                }
+                Toast.makeText(activity, "카카오톡이 설치되어있지 않습니다", Toast.LENGTH_SHORT).show()
+                activity.startActivity(Intent(ACTION_VIEW, Uri.parse("market://details?id=com.kakao.talk")))
+                return true
             }
         }
         return super.shouldOverrideUrlLoading(view, request)
@@ -45,4 +56,5 @@ class CustomWebViewClient(private val activity: WebViewActivity): WebViewClient(
     companion object {
         const val TAG = "CustomWebViewClient"
     }
+    
 }

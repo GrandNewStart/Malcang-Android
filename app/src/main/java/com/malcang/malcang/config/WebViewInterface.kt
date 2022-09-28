@@ -12,6 +12,7 @@ class WebViewInterface {
     fun provideJWT(jwt: String) {
         MainActivity.INSTANCE.runOnUiThread {
             MalcangApp.INSTANCE.jwt = jwt
+            MainActivity.INSTANCE.webView.clearHistory()
             MainActivity.INSTANCE.setJWTInLocalStorage(jwt)
 
             val fcmToken = MalcangApp.INSTANCE.fcmToken ?: return@runOnUiThread
@@ -44,6 +45,7 @@ class WebViewInterface {
     fun removeJWT() {
         MainActivity.INSTANCE.runOnUiThread {
             MalcangApp.INSTANCE.jwt = null
+            MainActivity.INSTANCE.webView.clearHistory()
             MainActivity.INSTANCE.removeJWTInLocalStorage()
         }
     }

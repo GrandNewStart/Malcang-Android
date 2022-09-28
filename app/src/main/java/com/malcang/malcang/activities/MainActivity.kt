@@ -3,10 +3,14 @@ package com.malcang.malcang.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
 
 class MainActivity : WebViewActivity() {
 
     init { INSTANCE = this }
+
+    private var didTapBackButton = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +22,22 @@ class MainActivity : WebViewActivity() {
             if (webView.url == "https://www.malcang.com/gene/roulette") {
                 return false
             }
-            if (webView.canGoBack()) {
+            return if (webView.canGoBack()) {
                 webView.goBack()
-                return true
+                true
+            } else {
+                if (didTapBackButton) {
+                    finish()
+                } else {
+                    Toast.makeText(this, "뒤로가기를 한번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+                    didTapBackButton = true
+                    Thread {
+                        Thread.sleep(1500)
+                        didTapBackButton = false
+                    }.start()
+
+                }
+                false
             }
         }
         return super.onKeyDown(keyCode, event)
