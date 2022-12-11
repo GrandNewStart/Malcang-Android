@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kakao.sdk.common.KakaoSdk
 import com.malcang.malcang.activities.SplashActivity
 import com.malcang.malcang.config.fcmToken
 import com.malcang.malcang.config.jwt
@@ -17,6 +18,7 @@ class MalcangApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        KakaoSdk.init(this, "c059fa6e70fc95110a8af130c90352de")
         logLocalData()
         initFirebase()
         checkJWT()

@@ -9,7 +9,7 @@ import android.webkit.*
 import androidx.core.view.isVisible
 import com.malcang.malcang.activities.WebViewActivity
 
-class CustomWebChromeClient(private val activity: WebViewActivity): WebChromeClient() {
+class CustomWebChromeClient(private val activity: WebViewActivity) : WebChromeClient() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateWindow(
@@ -71,7 +71,10 @@ class CustomWebChromeClient(private val activity: WebViewActivity): WebChromeCli
         AlertDialog.Builder(activity)
             .setTitle("")
             .setMessage(message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> result?.confirm() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                result?.confirm()
+            }
+            .setCancelable(false)
             .create()
             .show()
         return true
@@ -86,8 +89,13 @@ class CustomWebChromeClient(private val activity: WebViewActivity): WebChromeCli
         AlertDialog.Builder(activity)
             .setTitle("")
             .setMessage(message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> result?.confirm() }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> result?.cancel() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                result?.confirm()
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                result?.cancel()
+            }
+            .setCancelable(false)
             .create()
             .show()
         return true

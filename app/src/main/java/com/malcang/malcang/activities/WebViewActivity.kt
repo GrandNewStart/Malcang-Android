@@ -11,9 +11,10 @@ import com.malcang.malcang.config.CustomWebChromeClient
 import com.malcang.malcang.config.CustomWebViewClient
 import com.malcang.malcang.config.WebViewInterface
 
-open class WebViewActivity: AppCompatActivity() {
+open class WebViewActivity : AppCompatActivity() {
 
     val webView: WebView by lazy { findViewById(R.id.webView) }
+    var isPresentingAlert: Boolean = false
     private var progressDialog: CustomProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

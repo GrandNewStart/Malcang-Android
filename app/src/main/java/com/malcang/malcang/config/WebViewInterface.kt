@@ -1,7 +1,11 @@
 package com.malcang.malcang.config
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.webkit.JavascriptInterface
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.talk.TalkApiClient
 import com.malcang.malcang.managers.APIManager
 import com.malcang.malcang.MalcangApp
 import com.malcang.malcang.activities.MainActivity
@@ -48,6 +52,19 @@ class WebViewInterface {
             MainActivity.INSTANCE.webView.clearHistory()
             MainActivity.INSTANCE.removeJWTInLocalStorage()
         }
+    }
+
+    @JavascriptInterface
+    fun openKakaoChannel() {
+        MainActivity.INSTANCE.runOnUiThread {
+            val url = TalkApiClient.instance.channelChatUrl("_kWSLb")
+            KakaoCustomTabsClient.openWithDefault(MainActivity.INSTANCE, url)
+        }
+    }
+
+    @JavascriptInterface
+    fun openExternalLink(url: String) {
+        MainActivity.INSTANCE.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     companion object {

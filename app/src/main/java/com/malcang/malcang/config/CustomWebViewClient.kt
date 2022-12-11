@@ -2,20 +2,18 @@ package com.malcang.malcang.config
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.Intent.ACTION_VIEW
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import com.malcang.malcang.MalcangApp
 import com.malcang.malcang.activities.MainActivity
 import com.malcang.malcang.activities.WebViewActivity
-import java.lang.Exception
+import java.net.URISyntaxException
 
-class CustomWebViewClient(private val activity: WebViewActivity): WebViewClient() {
+class CustomWebViewClient(private val activity: WebViewActivity) : WebViewClient() {
 
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
@@ -34,27 +32,36 @@ class CustomWebViewClient(private val activity: WebViewActivity): WebViewClient(
 
     @SuppressLint("QueryPermissionsNeeded")
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        request?.url?.let { url ->
-            if (url.scheme == "kakaotalk") {
-                val intent = Intent(ACTION_VIEW, url)
-                intent.resolveActivity(activity.packageManager)?.apply {
+        val url = request?.url?.toString() ?: return false
+        if (url.startsWith("intent://")) {
+            try {
+                val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+                intent.getPackage()?.let {
                     activity.startActivity(intent)
                     return true
                 }
-                Toast.makeText(activity, "카카오톡이 설치되어있지 않습니다", Toast.LENGTH_SHORT).show()
-                activity.startActivity(Intent(ACTION_VIEW, Uri.parse("market://details?id=com.kakao.talk")))
+                val marketIntent = Intent(Intent.ACTION_VIEW)
+                marketIntent.data = Uri.parse("market://details?id=" + intent.getPackage()!!)
+                activity.startActivity(marketIntent)
                 return true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else if (url.startsWith("market://")) {
+            try {
+                Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+                    ?.let { intent -> activity.startActivity(intent) }
+                return true
+            } catch (e: URISyntaxException) {
+                e.printStackTrace()
             }
         }
-        return super.shouldOverrideUrlLoading(view, request)
+        view?.loadUrl(url)
+        return false
     }
 
     private fun log(message: String) {
-        Log.d(TAG, message)
+        Log.d("CustomWebViewClient", "---> $message")
     }
 
-    companion object {
-        const val TAG = "CustomWebViewClient"
-    }
-    
 }
